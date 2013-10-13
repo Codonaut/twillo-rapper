@@ -98,7 +98,6 @@ def twilio_preset_handler():
 		return generate_presets_menu_twiml(r)
 	else:
 		url = get_preset_url(digit)
-		l
 		return generate_presets_twiml(r, url)
 
 @app.route('/preset_selection_handler', methods=['POST'])
@@ -133,6 +132,7 @@ def twilio_beat_preview_handler():
 
 
 def generate_hit_preview(r,url):
+	r.pause(length=1)
 	r.play(url)
 	return generate_beat_preview_twiml(r)
 
