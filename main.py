@@ -1,4 +1,6 @@
 import os
+from settings import *
+from music_scripts import beatcreation
 from twilio.rest import TwilioRestClient
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
@@ -9,11 +11,7 @@ from pymongo import MongoClient
 from flask import (Flask, request, session, g, redirect, 
 				   url_for, abort, render_template, flash)
 
-TWILIO_SID = 'AC5bae5919ad738a13c8c66f63540df289'
-TWILIO_AUTH_TOKEN = '100afcb038cb6359d6a2175abbaaaf04'
-TWILIO_NUM = '+18563167002'
-AWS_ACCESS_KEY = 'AKIAJEMWKWKR3XQAQARQ'
-AWS_SECRET_KEY = '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'
+
 DEBUG = True
 app = Flask(__name__)
 app.config.from_object(__name__)
