@@ -10,15 +10,15 @@ bucket = boto_conn.get_bucket('twilio-rapper')
 s3_url_format = 'https://twilio-rapper.s3.amazonaws.com/{end_path}'
 
 def create_all_presets():
-    create_beat([5,1,4,1,5,1,4,1], 1)
-    create_beat([5,1,7,1,5,1,7,1], 2)
-    create_beat([3,1,6,1,3,1,6,1], 3)
-    create_beat([5,1,4,1,1,5,4,1], 4)
-    create_beat([5,1,4,1,5,5,4,1], 5)
-    create_beat([3,8,2,8,8,3,2,8], 6)
-    create_beat([4,1,4,5,1,5,5,4], 7)
-    create_beat([5,1,4,1,1,5,4,5], 8)
-    create_beat([4,5,5,1,5,5,1,4], 9)
+    create_beat([5,1,4,1,5,1,4,1], '1.wav')
+    create_beat([5,1,7,1,5,1,7,1], '2.wav')
+    create_beat([3,1,6,1,3,1,6,1], '3.wav')
+    create_beat([5,1,4,1,1,5,4,1], '4.wav')
+    create_beat([5,1,4,1,5,5,4,1], '5.wav')
+    create_beat([3,8,2,8,8,3,2,8], '6.wav')
+    create_beat([4,1,4,5,1,5,5,4], '7.wav')
+    create_beat([5,1,4,1,1,5,4,5], '8.wav')
+    create_beat([4,5,5,1,5,5,1,4], '9.wav')
 
 def get_preset_url(index):
     return s3_url_format.format(end_path='finished_beats/{}.wav'.format(index))
@@ -51,7 +51,7 @@ def send_beat_to_s3(filename):
     key.key = s3_name
     key.set_acl('public-read')
     key.set_contents_from_filename(filename)
-    return s3_url_format(end_path=s3_name)
+    return s3_url_format.format(end_path=s3_name)
 
 
 def create_beat(indices, file_name=None):

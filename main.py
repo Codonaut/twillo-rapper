@@ -1,6 +1,7 @@
 import os
+import logging
 from settings import *
-from beatcreation import create_beat, get_preset_url
+from beatcreation import create_beat, get_preset_url, get_hit_url
 from twilio.rest import TwilioRestClient
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
@@ -75,7 +76,7 @@ def generate_presets_menu_twiml(r):
 def generate_presets_selection_twiml(r):
 	''' Menu to let user select a beat, or go back to main menu '''
 	with r.gather(numDigits=1, finishOnKey ="", action=url_for('.twilio_preset_selection_handler')) as g:
-		r.say('Enter the beat you would like to rap to, or enter star to return to main menu.')
+		g.say('Enter the beat you would like to rap to, or enter star to return to main menu.')
 	return r.toxml()
 
 def generate_presets_twiml(r, sample_url):
@@ -87,6 +88,7 @@ def generate_presets_twiml(r, sample_url):
 def twilio_preset_handler():
 	''' Preview handler '''
 	r, digit = get_response_and_digit(request)
+	logging.info(digit)
 	if digit == '0':
 		return generate_presets_selection_twiml(r)
 	elif digit == '*':
@@ -96,6 +98,7 @@ def twilio_preset_handler():
 		return generate_presets_menu_twiml(r)
 	else:
 		url = get_preset_url(digit)
+		l
 		return generate_presets_twiml(r, url)
 
 @app.route('/preset_selection_handler', methods=['POST'])
