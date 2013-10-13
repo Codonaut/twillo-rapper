@@ -191,7 +191,8 @@ def generate_rap_create(r, digits):
     c.conference("RapSession")
   twilio_client.calls.create(to="18567848717",from_="18563167002",url=url_for('.twilio_join_rap'),send_digits=digits + "#")
   return r.toxml()
-@app.route('/post_rap_processing', methods=['POST'])
+
+@app.route('/post_rap_processing/', methods=['POST'])
 def twilio_post_rap_processing():
   pass
 
@@ -208,12 +209,12 @@ def twilio_play_beat():
   r.play(get_preset_url(digits),loop=0)
   return r.toxml()       
 
-@app.route('/join_rap/', methods=['GET'])
+@app.route('/join_rap/', methods=['POST])
 def twilio_join_rap():
   r = twiml.Response()
   with r.dial() as c:
-    c.conference("RapSession")
-
+    c.conference('RapSession')
+  print r.toxml()
   return r.toxml()
 
 #dial conference and play beat
