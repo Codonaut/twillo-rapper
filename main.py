@@ -1,6 +1,6 @@
 import os
 from settings import *
-from beatcreation import create_beat
+from beatcreation import create_beat, get_preset_url
 from twilio.rest import TwilioRestClient
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
@@ -29,6 +29,10 @@ else:
   conn = MongoClient()
   db = conn['RapDB']
 
+def get_response_and_digit(request):
+	r = twiml.Response()
+	digit = request.form.get('Digits', '')
+	return r, digit
 
 @app.route('/')
 def index():
@@ -40,20 +44,144 @@ def index():
 	r.say("Welcome to Twilio Beats")
 	return str(r)
 
-@app.route('/twilio_endpoint', methods=['GET'])
-def twilio_response():
-	r = twiml.Response()
-	r.say('Welcome to Rap Twilio')
+def generate_intro_twiml(r):
 	with r.gather(numDigits=1, action=url_for('.intro_redirect')) as g:
 		g.say('To hear presets press 1.  To make your own beats press 2.')
 	return r.toxml()
 
 @app.route('/intro_redirect', methods=['POST'])
 def intro_redirect():
+	r, digit = get_response_and_digit(request)
+	if digit == '1':
+		return generate_presets_menu_twiml(r)
+	elif digit == '2':
+		return generate_beat_preview_twiml(r)
+	else:
+		r.say("You pressed the wrong button bitch.")
+		return generate_intro_twiml(r)
+
+@app.route('/twilio_endpoint', methods=['GET'])
+def twilio_response():
 	r = twiml.Response()
-	digits = request.form['Digits']
-	r.say("yo nig %s" % digits)
+	r.say("Welcome to Rap Twilio")
+	return generate_intro_twiml(r)
+
+def generate_presets_menu_twiml(r):
+	''' Presets menu for playing presets '''
+	with r.gather(numDigits=1, finishOnKey ="",action=url_for('.twilio_preset_handler')) as g:
+		g.say('Use the digits 1-9 to preview a beat.  Use 0 to continue and select a beat')
 	return r.toxml()
+
+def generate_presets_selection_twiml(r):
+	''' Menu to let user select a beat, or go back to main menu '''
+	with r.gather(numDigits=1, finishOnKey ="", action=url_for('.twilio_preset_selection_handler')) as g:
+		r.say('Enter the beat you would like to rap to, or enter star to return to main menu.')
+	return r.toxml()
+
+def generate_presets_twiml(r, sample_url):
+	''' Adds a play to the twiml '''
+	r.play(sample_url, loop=2)
+	return generate_presets_menu_twiml(r)
+
+@app.route('/preset_handler', methods=['POST'])
+def twilio_preset_handler():
+	''' Preview handler '''
+	r, digit = get_response_and_digit(request)
+	if digit == '0':
+		return generate_presets_selection_twiml(r)
+	elif digit == '*'
+		return generate_intro_twiml(r)
+	elif digit == '#':
+		r.say('Invalid input, try again.')
+		return generate_presets_menu_twiml(r)
+	else:
+		url = get_preset_url(digit)
+		return generate_presets_twiml(r, url)
+
+@app.route('/preset_selection_handler', methods=['POST'])
+def twilio_preset_selection_handler():
+	''' Receives a beat selection for the person to rap to '''
+	r, digit = get_response_and_digit(request)
+	if digit == '*':
+		return generate_intro_twiml(r)
+	elif digit == '0' or digit == '#':
+		r.say('Invalid input.  Try again.')
+		return generate_presets_selection_twiml(r)
+	else:
+		return generate_rap_create(r, get_preset_url(digit) )
+
+def generate_beat_preview_twiml(r):
+	r.twiml.Response()
+	with r.gather(numDigits=1, finishOnKey='', action=url_for('.twilio_beat_preview_handler')) as g:
+		g.say("Press the 1-8 to try out the different beat sounds. Press 0 when you're done. Press 1 for hihat. 2 for snare. 3 for bass. 4 for hihat and snare. 5 for hihat and bass. 6 for bass and snare. 7 for hihat, bass, and snare. 8 for rest. Press star to go back to the main menu")
+	return r.toxml()
+
+@app.route('/twilio_beat_preview_handler', methods=['POST'])
+def twilio_beat_preview_handler():
+	r, digit = get_response_and_digit(request)
+	if digit == '#':
+		return generate_intro_twiml(r)
+	elif digit == '9' or digit == '*':
+		r.say("Invalid Input. Please try again")
+		return generate_beat_preview_twiml(r)
+	else: 
+		url = get_hit_url(digit)
+		return generate_hit_preview(r, url)
+
+
+def generate_hit_preview(r,url):
+	r.play(url)
+	return generate_beat_preview_twiml(r)
+
+def generate_beat_creation_twiml(r):
+	r = twiml.Response()
+	with r.gather(numDigits=8, finishOnKey='*', action=url_for('.twilio_beat_creation_handler')) as g:
+		g.say("Input 8 digits to make the beat. Press 1 for hihat. 2 for snare. 3 for bass. 4 for hihat and snare. 5 for hihat and bass. 6 for bass and snare. 7 for hihat, bass, and snare. 8 for rest. Press star to go back to the main menu")
+	return r.toxml()
+
+@app.route('/beat_creation_handler', methods=['POST'])
+def twilio_beat_creation_handler():
+	# Handles beat creation interface
+	r, digits = get_response_and_digit(request)
+	if digits == '':
+		return generate_intro_twiml(r)
+	elif not valid(digits):
+		r.say('Invalid input.  Try again.')
+		return generate_beat_creation_twiml(r)
+	else:
+		return generate_beat_approval_twiml(r,digits)
+
+def valid(phone_input):
+	valid_set = set(['1','2','3','4','5','6','7','8'])
+	for c in phone_input:
+		if c not in valid_set:
+			return False
+	return True
+
+def generate_beat_approval_twiml(r, digits):
+	r = twiml.Response()
+	r.play(create_beat(digits), loop=4)
+	with r.gather(numDigits=1, finishOnKey='', action=url_for('.twilio_beat_approval_handler', digits = digits)) as g:
+		g.say(" To hear the beat again press 1. To make a new beat press 2. To continue to rapping press 0. To return to the main menu press star")
+	return r.toxml()
+
+@app.route('/beat_approval_handler/<digits>', methods=['POST'])
+def twilio_beat_approval_handler():
+	r, digit = get_response_and_digit(request)
+	if digit == "1":
+		return generate_beat_approval_twiml(r, digits)
+	elif digit == "2":
+		return generate_beat_creation_twiml(r)
+	elif digit == "*":
+		return generate_intro_twiml(r)
+	elif digit == "0":
+		return generate_rap_create(r, get_preset_url(digits))
+	else:
+		r.say("Invalid input. Please try again")
+		return generate_beat_approval_twiml(r, digits)
+
+def generate_rap_create(r, file_url):
+	pass
 
 @app.route('/save_name', methods=['GET'])
 def save_name():

@@ -7,18 +7,24 @@ from settings import AWS_ACCESS_KEY, AWS_SECRET_KEY, AWS_BUCKET_NAME
 
 boto_conn = S3Connection(AWS_ACCESS_KEY, AWS_SECRET_KEY)
 bucket = boto_conn.get_bucket('twilio-rapper')
+s3_url_format = 'https://twilio-rapper.s3.amazonaws.com/{end_path}'
 
 def create_all_presets():
-    create_beat([5,1,4,1,5,1,4,1])
-    create_beat([5,1,7,1,5,1,7,1])
-    create_beat([3,1,6,1,3,1,6,1])
-    create_beat([5,1,4,1,1,5,4,1])
-    create_beat([5,1,4,1,5,5,4,1])
-    create_beat([3,8,2,8,8,3,2,8])
-    create_beat([4,1,4,5,1,5,5,4])
-    create_beat([5,1,4,1,1,5,4,5])
-    create_beat([4,5,5,1,5,5,1,4])
+    create_beat([5,1,4,1,5,1,4,1], 1)
+    create_beat([5,1,7,1,5,1,7,1], 2)
+    create_beat([3,1,6,1,3,1,6,1], 3)
+    create_beat([5,1,4,1,1,5,4,1], 4)
+    create_beat([5,1,4,1,5,5,4,1], 5)
+    create_beat([3,8,2,8,8,3,2,8], 6)
+    create_beat([4,1,4,5,1,5,5,4], 7)
+    create_beat([5,1,4,1,1,5,4,5], 8)
+    create_beat([4,5,5,1,5,5,1,4], 9)
 
+def get_preset_url(index):
+    return s3_url_format.format(end_path='finished_beats/{}.wav'.format(index))
+
+def get_hit_url(index):
+    return s3_url_format.format(end_path='beat_creator/{}.wav'.format(index))
 
 def get_AudioSegment_from_s3(index):
     '''
@@ -41,11 +47,14 @@ def get_AudioSegment_from_s3(index):
 
 def send_beat_to_s3(filename):
     key = Key(bucket)
-    key.key = 'finished_beats/{filename}'.format(filename=filename)
+    s3_name = 'finished_beats/{filename}'.format(filename=filename)
+    key.key = s3_name
+    key.set_acl('public-read')
     key.set_contents_from_filename(filename)
+    return s3_url_format(end_path=s3_name)
 
 
-def create_beat(indices):
+def create_beat(indices, file_name=None):
     samples = [None]*9
     unique_indices = set(indices)
     for i in unique_indices:
@@ -54,8 +63,8 @@ def create_beat(indices):
         samples[i] = get_AudioSegment_from_s3(i)
     beat = (samples[indices[0]] + samples[indices[1]] + samples[indices[2]] + samples[indices[3]] + samples[indices[4]] + 
             samples[indices[5]] + samples[indices[6]] + samples[indices[7]])
-    name = (str(indices[0]) + str(indices[1]) + str(indices[2]) + str(indices[3]) + str(indices[4]) + 
-        str(indices[5]) + str(indices[6]) + str(indices[7]) + '.wav') 
-    beat.export(name, format="wav")
-    send_beat_to_s3(name)
-    return name
+    if not file_name:
+        file_name = (str(indices[0]) + str(indices[1]) + str(indices[2]) + str(indices[3]) + str(indices[4]) + 
+            str(indices[5]) + str(indices[6]) + str(indices[7]) + '.wav') 
+    beat.export(file_name, format="wav")
+    return send_beat_to_s3(file_name)
