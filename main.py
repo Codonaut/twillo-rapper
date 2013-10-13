@@ -195,17 +195,22 @@ def generate_rap_create(r, digits):
 @app.route('/post_rap_processing/', methods=['POST'])
 def twilio_post_rap_processing():
   r = twiml.Response()
+  number = request.form.get('From', '')
   rap_url = request.form.get('RecordingUrl', '')
-  with r.gather(numDigits=10, finishOnKey='#', action=url_for('.twilio_rap_sender', rap_url = rap_url)) as g:
-    g.say("Enter a number to send your rap to")
-  r.say("Get a chance to listen to your rap")
+  twilio_client.messages.create(
+    body = rap_url,
+    to = number,
+    from_= "+18565215924")
+  #with r.gather(numDigits=10, finishOnKey='#', action=url_for('.twilio_rap_sender', rap_url = rap_url)) as g:
+    #g.say("Enter a number to send your rap to")
+  #r.say("Get a chance to listen to your rap")
   r.play(rap_url)
   return r.toxml()
 
 @app.route('/rap_sender/<rap_url>', methods=['POST'])
 def twilio_rap_sender(rap_url):
   r, digits = get_response_and_digit(request)
-  twilio_client.calls.create(to="+1" + digits, from_="+18565215924",url='http://twilio-rapper.herokuapp.com/play_back_rap?rap_url="' + rap_url + '"')
+  #twilio_client.calls.create(to="+1" + digits, from_="+18565215924",url='http://twilio-rapper.herokuapp.com/play_back_rap?rap_url="' + rap_url + '"')
   r.say("Your call has been sent! Have a hip-hop day!")
   return r.toxml()
   
