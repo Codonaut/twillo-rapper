@@ -49,8 +49,8 @@ def send_beat_to_s3(filename):
     key = Key(bucket)
     s3_name = 'finished_beats/{filename}'.format(filename=filename)
     key.key = s3_name
-    key.set_acl('public-read')
     key.set_contents_from_filename(filename)
+    key.set_acl('public-read')
     return s3_url_format.format(end_path=s3_name)
 
 
