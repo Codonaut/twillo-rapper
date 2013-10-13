@@ -32,13 +32,13 @@ else:
 def index():
 	r = twiml.Response()
 	r.say("Welcome to Twilio Beats")
-	return r
+	return str(r)
 
 @app.route('/twilio_endpoint', methods=['GET'])
 def twilio_response():
 	r = twiml.Response()
 	r.say("Welcome to Twilio Beats")
-	return r
+	return str(r)
 
 @app.route('/save_name', methods=['GET'])
 def save_name():
