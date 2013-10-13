@@ -43,8 +43,17 @@ def index():
 @app.route('/twilio_endpoint', methods=['GET'])
 def twilio_response():
 	r = twiml.Response()
-	r.say("Welcome to Twilio Beats")
-	return str(r)
+	r.say('Welcome to Rap Twilio')
+	with r.gather(numDigits=1, action=url_for('.intro_redirect')) as g:
+		g.say('To hear presets press 1.  To make your own beats press 2.')
+	return r.toxml()
+
+@app.route('/intro_redirect', methods=['POST'])
+def intro_redirect():
+	r = twiml.Response()
+	digits = request.form['Digits']
+	r.say("yo nig %s" % digits)
+	return r.toxml()
 
 @app.route('/save_name', methods=['GET'])
 def save_name():
