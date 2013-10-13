@@ -7,10 +7,20 @@ from settings import AWS_ACCESS_KEY, AWS_SECRET_KEY, AWS_BUCKET_NAME
 
 boto_conn = S3Connection(AWS_ACCESS_KEY, AWS_SECRET_KEY)
 bucket = boto_conn.get_bucket('twilio-rapper')
-    key.key = 'test'
-    key.get_contents_from_filename('')
 
-def get_AudiSegment_from_s3(index):
+def create_all_presets():
+    create_beat([5,1,4,1,5,1,4,1])
+    create_beat([5,1,7,1,5,1,7,1])
+    create_beat([3,1,6,1,3,1,6,1])
+    create_beat([5,1,4,1,1,5,4,1])
+    create_beat([5,1,4,1,5,5,4,1])
+    create_beat([3,8,2,8,8,3,2,8])
+    create_beat([4,1,4,5,1,5,5,4])
+    create_beat([5,1,4,1,1,5,4,5])
+    create_beat([4,5,5,1,5,5,1,4])
+
+
+def get_AudioSegment_from_s3(index):
     '''
     Files in beat_creator are as follows:
     1.wav -- hihat.wav
@@ -39,6 +49,8 @@ def create_beat(indices):
     samples = [None]*9
     unique_indices = set(indices)
     for i in unique_indices:
+        if i < 1 or i > 8:
+            raise Exception("Don't pass me that shit, bro.")
         samples[i] = get_AudioSegment_from_s3(i)
     beat = (samples[indices[0]] + samples[indices[1]] + samples[indices[2]] + samples[indices[3]] + samples[indices[4]] + 
             samples[indices[5]] + samples[indices[6]] + samples[indices[7]])
