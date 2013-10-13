@@ -203,7 +203,7 @@ def twilio_post_rap_processing():
 @app.route('/rap_sender/<rap_url>', methods=['POST'])
 def twilio_rap_sender(rap_url):
   r, digits = get_response_and_digit(request)
-  twilio_client.calls.create(to="+1" + digits, from_="+18565215924",url='http://twilio-rapper.herokuapp.com//play_back_rap/' + rap_url)
+  twilio_client.calls.create(to="+1" + digits, from_="+18565215924",url='http://twilio-rapper.herokuapp.com/play_back_rap/' + rap_url)
   r.say("Your call has been sent! Have a hip-hop day!")
   return r.toxml()
   
