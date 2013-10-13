@@ -111,7 +111,7 @@ def twilio_preset_selection_handler():
 		return generate_rap_create(r, get_preset_url(digit) )
 
 def generate_beat_preview_twiml(r):
-	r.twiml.Response()
+	r = twiml.Response()
 	with r.gather(numDigits=1, finishOnKey='', action=url_for('.twilio_beat_preview_handler')) as g:
 		g.say("Press the 1-8 to try out the different beat sounds. Press 0 when you're done. Press 1 for hihat. 2 for snare. 3 for bass. 4 for hihat and snare. 5 for hihat and bass. 6 for bass and snare. 7 for hihat, bass, and snare. 8 for rest. Press star to go back to the main menu")
 	return r.toxml()
