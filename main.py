@@ -209,7 +209,7 @@ def twilio_play_beat():
   r.play(get_preset_url(digits),loop=0)
   return r.toxml()       
 
-@app.route('/join_rap/', methods=['POST'])
+@app.route('/join_rap', methods=['POST'])
 def twilio_join_rap():
   r = twiml.Response()
   with r.dial() as c:
