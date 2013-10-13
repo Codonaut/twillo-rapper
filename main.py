@@ -1,5 +1,7 @@
 import os
 from twilio.rest import TwilioRestClient
+from boto.s3.connection import S3Connection
+from boto.s3.key import Key
 from twilio import twiml
 
 from urlparse import urlparse
@@ -10,11 +12,13 @@ from flask import (Flask, request, session, g, redirect,
 TWILIO_SID = 'AC5bae5919ad738a13c8c66f63540df289'
 TWILIO_AUTH_TOKEN = '100afcb038cb6359d6a2175abbaaaf04'
 TWILIO_NUM = '+18563167002'
+AWS_ACCESS_KEY = 'AKIAJEMWKWKR3XQAQARQ'
+AWS_SECRET_KEY = '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'
 DEBUG = True
 app = Flask(__name__)
 app.config.from_object(__name__)
 twilio_client = TwilioRestClient(TWILIO_SID, TWILIO_AUTH_TOKEN)
-
+boto_conn = S3Connection(AWS_ACCESS_KEY, AWS_SECRET_KEY)
 
 MONGO_URL = os.environ.get('MONGOHQ_URL')
 if MONGO_URL:
@@ -30,6 +34,10 @@ else:
 
 @app.route('/')
 def index():
+	bucket = boto_conn.get_bucket('twilio-rapper')
+	key = Key(bucket)
+	key.key = 'test'
+	key.get_contents_from_filename('')
 	r = twiml.Response()
 	r.say("Welcome to Twilio Beats")
 	return str(r)
