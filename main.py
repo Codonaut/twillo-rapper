@@ -89,7 +89,7 @@ def twilio_preset_handler():
 	r, digit = get_response_and_digit(request)
 	if digit == '0':
 		return generate_presets_selection_twiml(r)
-	elif digit == '*'
+	elif digit == '*':
 		return generate_intro_twiml(r)
 	elif digit == '#':
 		r.say('Invalid input, try again.')
