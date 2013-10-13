@@ -15,11 +15,10 @@ if MONGO_URL:
   db = conn[urlparse(MONGO_URL).path[1:]]
 else:
   # Not on an app with the MongoHQ add-on, do some localhost action
-  connection = MongoClient()
-  db = connection['RapDB']
+  conn = MongoClient()
+  db = conn['RapDB']
 
 DEBUG = True
-#conn = MongoClient()
 app = Flask(__name__)
 app.config.from_object(__name__)
 
@@ -38,6 +37,7 @@ def print_names():
 	names = db.names
 	return ', '.join([n['name'] for n in names.find()])
 
-if not MONGO_URL:
+'''if not MONGO_URL:
 	if __name__ == '__main__':
 		app.run()
+'''
