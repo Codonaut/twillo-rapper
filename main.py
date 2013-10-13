@@ -6,6 +6,9 @@ from flask import (Flask, request, session, g, redirect,
 
 TWILIO_SID = 'AC5bae5919ad738a13c8c66f63540df289'
 TWILIO_AUTH_TOKEN = '100afcb038cb6359d6a2175abbaaaf04'
+DEBUG = True
+app = Flask(__name__)
+app.config.from_object(__name__)
 
 MONGO_URL = os.environ.get('MONGOHQ_URL')
 if MONGO_URL:
@@ -18,9 +21,6 @@ else:
   conn = MongoClient()
   db = conn['RapDB']
 
-DEBUG = True
-app = Flask(__name__)
-app.config.from_object(__name__)
 
 @app.route('/')
 def index():
