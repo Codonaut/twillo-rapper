@@ -125,6 +125,8 @@ def twilio_beat_preview_handler():
 	elif digit == '9' or digit == '#':
 		r.say("Invalid Input. Please try again")
 		return generate_beat_preview_twiml(r)
+	elif digit == '0':
+		return generate_beat_creation_twiml(r)
 	else: 
 		url = get_hit_url(digit)
 		return generate_hit_preview(r, url)
@@ -136,7 +138,6 @@ def generate_hit_preview(r,url):
 	return generate_beat_preview_twiml(r)
 
 def generate_beat_creation_twiml(r):
-	r = twiml.Response()
 	with r.gather(numDigits=8, finishOnKey='*', action=url_for('.twilio_beat_creation_handler')) as g:
 		g.say("Input 8 digits to make the beat. Press 1 for hihat. 2 for snare. 3 for bass. 4 for hihat and snare. 5 for hihat and bass. 6 for bass and snare. 7 for hihat, bass, and snare. 8 for rest. Press star to go back to the main menu")
 	return r.toxml()
@@ -161,7 +162,6 @@ def valid(phone_input):
 	return True
 
 def generate_beat_approval_twiml(r, digits):
-	r = twiml.Response()
 	r.play(create_beat(digits), loop=4)
 	with r.gather(numDigits=1, finishOnKey='', action=url_for('.twilio_beat_approval_handler', digits = digits)) as g:
 		g.say(" To hear the beat again press 1. To make a new beat press 2. To continue to rapping press 0. To return to the main menu press star")
