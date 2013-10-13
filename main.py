@@ -137,6 +137,7 @@ def twilio_beat_preview_handler():
 def generate_hit_preview(r,url):
 	r.pause(length=1)
 	r.play(url)
+	print url
 	return generate_beat_preview_twiml(r)
 
 def generate_beat_creation_twiml(r):
