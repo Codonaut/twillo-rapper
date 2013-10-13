@@ -71,6 +71,7 @@ def generate_presets_menu_twiml(r):
 	''' Presets menu for playing presets '''
 	with r.gather(numDigits=1, finishOnKey ="",action=url_for('.twilio_preset_handler')) as g:
 		g.say('Use the digits 1-9 to preview a beat.  Use 0 to continue and select a beat')
+
 	return r.toxml()
 
 def generate_presets_selection_twiml(r):
@@ -89,6 +90,7 @@ def twilio_preset_handler():
 	''' Preview handler '''
 	r, digit = get_response_and_digit(request)
 	logging.info(digit)
+	print digit
 	if digit == '0':
 		return generate_presets_selection_twiml(r)
 	elif digit == '*':
@@ -121,9 +123,10 @@ def generate_beat_preview_twiml(r):
 @app.route('/twilio_beat_preview_handler', methods=['POST'])
 def twilio_beat_preview_handler():
 	r, digit = get_response_and_digit(request)
-	if digit == '#':
+	print digit
+	if digit == '*':
 		return generate_intro_twiml(r)
-	elif digit == '9' or digit == '*':
+	elif digit == '9' or digit == '#':
 		r.say("Invalid Input. Please try again")
 		return generate_beat_preview_twiml(r)
 	else: 
