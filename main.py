@@ -1,5 +1,5 @@
-import urlparse
 import os
+from urlparse import urlparse
 from pymongo import MongoClient
 from flask import (Flask, request, session, g, redirect, 
 				   url_for, abort, render_template, flash)
@@ -37,7 +37,6 @@ def print_names():
 	names = db.names
 	return ', '.join([n['name'] for n in names.find()])
 
-'''if not MONGO_URL:
+if not MONGO_URL:
 	if __name__ == '__main__':
 		app.run()
-'''
