@@ -200,7 +200,7 @@ def twilio_post_rap_processing():
 @app.route('/beat_call/', methods=['POST'])
 def twilio_beat_call():
   r = twiml.Response()
-  r.gather(action=url_For('.twilio_play_beat'))
+  r.gather(action=url_for('.twilio_play_beat'))
   return r.toxml()
 
 @app.route('/play_beat/', methods=['POST'])
