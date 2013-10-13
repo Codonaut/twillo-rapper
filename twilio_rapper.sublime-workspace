@@ -1,0 +1,220 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "main.py",
+			"settings":
+			{
+				"buffer_size": 318,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/mephistopholes/workspace/handelman_photo/css/style.css",
+		"/home/mephistopholes/workspace/handelman_photo/js/jquery.cycle2.js",
+		"/home/mephistopholes/workspace/handelman_photo/js/galleriffic2.0.js",
+		"/home/mephistopholes/Downloads/galleriffic-2.0/example-2.html",
+		"/home/mephistopholes/workspace/handelman_photo/gallery.html",
+		"/home/mephistopholes/workspace/handelman_photo/css/galleriffic-2.css",
+		"/home/mephistopholes/workspace/handelman_photo/pricing.html",
+		"/home/mephistopholes/workspace/handelman_photo/index.html",
+		"/home/mephistopholes/workspace/handelman_photo/about.html",
+		"/home/mephistopholes/workspace/handelman_photo/css/basic.css",
+		"/home/mephistopholes/Downloads/galleriffic-2.0/css/galleriffic-2.css",
+		"/home/mephistopholes/workspace/handelman_photo/js/jquery.opacityrollover.js",
+		"/home/mephistopholes/workspace/handelman_photo/js/gallerific2.0.js",
+		"/home/mephistopholes/workspace/gato-code/CATBox/07-MinimumCostFlows/CostScaling.pro",
+		"/home/mephistopholes/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/mephistopholes/sublime_text/txt.txt",
+		"/home/mephistopholes/workspace/gato-code/Gato/Gato.py",
+		"/home/mephistopholes/workspace/gato-code/CATBox/07-MinimumCostFlows/CostScaling.alg",
+		"/home/mephistopholes/workspace/gato-code/CATBox/02-GraphsNetworks/BFS.pro",
+		"/home/mephistopholes/workspace/gato-code/CATBox/07-MinimumCostFlows/SuccessiveShortestPath.pro",
+		"/home/mephistopholes/workspace/gato-code/Gato/GatoTest.py",
+		"/home/mephistopholes/workspace/gato-code/Gato/BFS.pro",
+		"/home/mephistopholes/workspace/gato-code/CATBox/07-MinimumCostFlows/NegativeCircuit.pro",
+		"/home/mephistopholes/workspace/gato-code/CATBox/02-GraphsNetworks/BFS.alg",
+		"/home/mephistopholes/workspace/fp_scala/week1/newtons.scala",
+		"/home/mephistopholes/workspace/fp_scala/week1/factorial.scala"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"thumb",
+			"thumbs",
+			"transition",
+			"ssadvance",
+			"SS-CONTROLS",
+			"CONTAINER",
+			"OPACITY",
+			"center",
+			"top",
+			"css",
+			"ctrl+d",
+			"ctrl+k",
+			"ctrl+d",
+			"ctrl+k",
+			"10px",
+			"\">\n",
+			"'''\n",
+			"D",
+			"nei",
+			"edges",
+			"cap",
+			"excess",
+			"reduced",
+			"--",
+			"ctrl+9",
+			"ctrl+3",
+			"-s"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "main.py",
+					"settings":
+					{
+						"buffer_size": 318,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								318,
+								318
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}
