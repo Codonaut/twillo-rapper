@@ -13,5 +13,6 @@ def create_beat(i,j,k,l,m,n,o,p):
     samples.append(AudioSegment.from_wav("basshihatsnare.wav"))
     samples.append(AudioSegment.from_wav("silence.wav"))
     beat = samples[i] + samples[j] + samples[k] + samples[l] + samples[m] + samples[n] + samples[o] + samples[p]
-    name = str(i+1) + str(j+1) + str(k+1) + str(l+1) + str(m+1) + str(n+1) + str(o+1) + str(p+1)
-    return beat.export(name + ".wav", format="wav")
+    name = str(i+1) + str(j+1) + str(k+1) + str(l+1) + str(m+1) + str(n+1) + str(o+1) + str(p+1) + ".wav"
+    beat.export(name, format="wav")
+    return name
