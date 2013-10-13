@@ -12,6 +12,7 @@ from pymongo import MongoClient
 from flask import (Flask, request, session, g, redirect, 
 				   url_for, abort, render_template, flash)
 
+#CREATED BY S&M
 
 DEBUG = True
 app = Flask(__name__)
