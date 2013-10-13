@@ -111,7 +111,7 @@ def twilio_preset_selection_handler():
 		r.say('Invalid input.  Try again.')
 		return generate_presets_selection_twiml(r)
 	else:
-		return generate_rap_create(r, get_preset_url(digit) )
+		return generate_rap_create(r, digit )
 
 def generate_beat_preview_twiml(r):
 	with r.gather(numDigits=1, finishOnKey='', action=url_for('.twilio_beat_preview_handler')) as g:
