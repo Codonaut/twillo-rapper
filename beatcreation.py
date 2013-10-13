@@ -39,7 +39,7 @@ def get_AudioSegment_from_s3(index):
     8.wav -- rest.wav
     '''
     key = Key(bucket)  
-    file_name = '%d.wav' % index
+    file_name = '{}.wav'.format(index)
     key.key = 'beat_creator/{file_name}'.format(file_name=file_name)
     key.get_contents_to_filename(file_name)
     return AudioSegment.from_wav(file_name)
@@ -58,9 +58,9 @@ def create_beat(indices, file_name=None):
     samples = [None]*9
     unique_indices = set(indices)
     for i in unique_indices:
-        if i < 1 or i > 8:
+        if int(i) < 1 or int(i) > 8:
             raise Exception("Don't pass me that shit, bro.")
-        samples[i] = get_AudioSegment_from_s3(i)
+        samples[int(i)] = get_AudioSegment_from_s3(i)
     beat = (samples[indices[0]] + samples[indices[1]] + samples[indices[2]] + samples[indices[3]] + samples[indices[4]] + 
             samples[indices[5]] + samples[indices[6]] + samples[indices[7]])
     if not file_name:

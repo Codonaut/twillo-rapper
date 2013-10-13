@@ -146,6 +146,7 @@ def generate_beat_creation_twiml(r):
 def twilio_beat_creation_handler():
 	# Handles beat creation interface
 	r, digits = get_response_and_digit(request)
+
 	if digits == '':
 		return generate_intro_twiml(r)
 	elif not valid(digits):
@@ -163,6 +164,7 @@ def valid(phone_input):
 
 def generate_beat_approval_twiml(r, digits):
 	r.play(create_beat(digits), loop=4)
+	print digits
 	with r.gather(numDigits=1, finishOnKey='', action=url_for('.twilio_beat_approval_handler', digits = digits)) as g:
 		g.say(" To hear the beat again press 1. To make a new beat press 2. To continue to rapping press 0. To return to the main menu press star")
 	return r.toxml()
