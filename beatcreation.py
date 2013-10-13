@@ -56,6 +56,7 @@ def send_beat_to_s3(filename):
 
 def create_beat(indices, file_name=None):
     samples = [None]*9
+    indices = [int(n) for n in indices]
     unique_indices = set(indices)
     for i in unique_indices:
         if int(i) < 1 or int(i) > 8:
