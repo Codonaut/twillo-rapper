@@ -220,6 +220,7 @@ def twilio_beat_call():
 @app.route('/play_beat/', methods=['POST'])
 def twilio_play_beat():
   r, digits = get_response_and_digit(request)
+  r.pause(length=1)
   r.play(get_preset_url(digits),loop=0)
   return r.toxml()       
 
@@ -228,7 +229,6 @@ def twilio_join_rap():
   r = twiml.Response()
   with r.dial() as c:
     c.conference('RapSession',beep=False)
-  print r.toxml()
   return r.toxml()
 
 #dial conference and play beat
