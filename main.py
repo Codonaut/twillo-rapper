@@ -187,7 +187,6 @@ def twilio_beat_approval_handler(digits):
 	      
 #dial conference and then record
 def generate_rap_create(r, digits):
-  r.say("Please try to stay silent")
   with r.dial(record=True,hangupOnStar=True,action=url_for('.twilio_post_rap_processing')) as c:
     c.conference("RapSession",beep=False)
   twilio_client.calls.create(to="+18568748717",from_="+18565215924",url='http://twilio-rapper.herokuapp.com/join_rap',send_digits=digits + "#")
@@ -220,7 +219,6 @@ def twilio_beat_call():
 @app.route('/play_beat/', methods=['POST'])
 def twilio_play_beat():
   r, digits = get_response_and_digit(request)
-  r.pause(length=1)
   r.play(get_preset_url(digits),loop=0)
   return r.toxml()       
 
