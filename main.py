@@ -170,7 +170,7 @@ def generate_beat_approval_twiml(r, digits):
 	return r.toxml()
 
 @app.route('/beat_approval_handler/<digits>', methods=['POST'])
-def twilio_beat_approval_handler():
+def twilio_beat_approval_handler(digits):
 	r, digit = get_response_and_digit(request)
 	if digit == "1":
 		return generate_beat_approval_twiml(r, digits)
