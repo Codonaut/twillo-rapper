@@ -89,8 +89,6 @@ def generate_presets_twiml(r, sample_url):
 def twilio_preset_handler():
 	''' Preview handler '''
 	r, digit = get_response_and_digit(request)
-	logging.info(digit)
-	print digit
 	if digit == '0':
 		return generate_presets_selection_twiml(r)
 	elif digit == '*':
@@ -115,16 +113,13 @@ def twilio_preset_selection_handler():
 		return generate_rap_create(r, get_preset_url(digit) )
 
 def generate_beat_preview_twiml(r):
-	r = twiml.Response()
 	with r.gather(numDigits=1, finishOnKey='', action=url_for('.twilio_beat_preview_handler')) as g:
 		g.say("Press the 1-8 to try out the different beat sounds. Press 0 when you're done. Press 1 for hihat. 2 for snare. 3 for bass. 4 for hihat and snare. 5 for hihat and bass. 6 for bass and snare. 7 for hihat, bass, and snare. 8 for rest. Press star to go back to the main menu")
-	print str(r)
 	return r.toxml()
 
 @app.route('/twilio_beat_preview_handler', methods=['POST'])
 def twilio_beat_preview_handler():
 	r, digit = get_response_and_digit(request)
-	print digit
 	if digit == '*':
 		return generate_intro_twiml(r)
 	elif digit == '9' or digit == '#':
@@ -138,7 +133,6 @@ def twilio_beat_preview_handler():
 def generate_hit_preview(r,url):
 	r.pause(length=1)
 	r.play(url)
-	print url
 	return generate_beat_preview_twiml(r)
 
 def generate_beat_creation_twiml(r):
