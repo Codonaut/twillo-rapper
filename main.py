@@ -191,6 +191,10 @@ def generate_rap_create(r, digits):
     c.conference("RapSession")
   twilio_client.calls.create(to="18567848717",from_="18563167002",url=url_for('.twilio_join_rap'),send_digits=digits + "#")
   return r.toxml()
+@app.route('/post_rap_processing', methods=['POST'])
+def twilio_post_rap_processing():
+  pass
+
 
 @app.route('/beat_call/', methods=['POST'])
 def twilio_beat_call():
