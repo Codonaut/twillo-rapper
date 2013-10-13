@@ -180,13 +180,43 @@ def twilio_beat_approval_handler(digits):
 	elif digit == "*":
 		return generate_intro_twiml(r)
 	elif digit == "0":
-		return generate_rap_create(r, get_preset_url(digits))
+		return generate_rap_create(r, digits)
 	else:
 		r.say("Invalid input. Please try again")
 		return generate_beat_approval_twiml(r, digits)
+	      
+#dial conference and then record
+def generate_rap_create(r, digits):
+  with r.dial(record=True,hangupOnStar=True,action=url_for('.twilio_post_rap_processing')) as c:
+    c.conference("RapSession")
+  twilio_client.calls.create(to="18567848717",from="18563167002",url=url_for('.twilio_join_rap'),send_digits=digits + "#")
+  return r.toxml()
 
-def generate_rap_create(r, file_url):
-	pass
+@app.route('/beat_call/', methods=['POST'])
+def twilio_beat_call():
+  r = twiml.Response()
+  r.gather(action=url_For('.twilio_play_beat'))
+  return r.toxml()
+
+@app.route('/play_beat/', methods=['POST'])
+def twilio_play_beat():
+  r, digits = get_response_and_digit(request)
+  r.play(get_preset_url(digits),loop=0)
+  return r.toxml()       
+
+@app.route('/join_rap/', methods=['GET'])
+def twilio_join_rap():
+  r = twiml.Response()
+  with r.dial() as c:
+    c.conference("RapSession")
+
+  return r.toxml()
+
+#dial conference and play beat
+
+#after conference play file for other person
+
+@app.route('/beat_playback/<digits>', methods=['GET'])
 
 @app.route('/save_name', methods=['GET'])
 def save_name():
